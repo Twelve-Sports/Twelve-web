@@ -2,10 +2,10 @@ import React from "react";
 
 import { Flex, Text } from "@chakra-ui/react";
 
-const IndexPage = () => (
+const Banana = () => (
 	<Flex height="100vh" alignItems="center" justifyContent="center">
-		<Text>Hello TIIMEEEEE</Text>
+		<Text>Hello BANANA</Text>
 	</Flex>
 );
 
-export default IndexPage;
+export default Banana;

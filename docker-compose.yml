@@ -1,0 +1,11 @@
+version: '1.0'
+services:
+  
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile 
+    restart: always
+    container_name: twelve_web
+    ports:
+      - 3000:3000

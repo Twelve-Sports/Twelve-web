@@ -6,6 +6,6 @@ COPY package*.json .
 COPY . .
 
 RUN npm i
+RUN npx yarn install
 
-CMD npx yarn install
 CMD npx yarn dev

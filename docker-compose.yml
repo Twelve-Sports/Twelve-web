@@ -5,6 +5,9 @@ services:
     build:
       context: ./
       dockerfile: Dockerfile 
+    volumes:
+      - .:/home/TwelveWeb
+      - /home/TwelveWeb/node_modules
     restart: always
     container_name: twelve_web
     ports:

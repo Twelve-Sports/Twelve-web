@@ -1,4 +1,6 @@
 import { extendTheme } from "@chakra-ui/react";
+import { Inter } from "next/font/google";
+const inter = Inter({ subsets: ["latin"] });
 
 export const theme = extendTheme({
 	colors: {
@@ -51,5 +53,12 @@ export const theme = extendTheme({
 			900: "#393939",
 		}
 	},
+	styles: {
+		global: {
+			"html, body": {
+				fontFamily: inter,
+			},
+		}
+	}
 });
 

@@ -63,7 +63,13 @@ export default function Agendamento() {
 				</Flex>
 
 				<AgendaCard display={selectedSport?"flex":"none"}>
-					<DatePicker selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
+					<DatePicker
+						selectedDate={selectedDate}
+						setSelectedDate={setSelectedDate}
+						borderBottom={"1px solid #0003"}
+						width="100%"
+						justifyContent={"space-between"}
+					/>
 					{listaDeHorarios.map(horario => (
 						<AgendaLine key={horario.id} vacancy={horario}/>
 					))}

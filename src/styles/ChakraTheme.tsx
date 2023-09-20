@@ -58,6 +58,9 @@ export const theme = extendTheme({
 			"html, body": {
 				fontFamily: inter,
 			},
+			"body": {
+				backgroundColor: "gray.50",
+			}
 		}
 	}
 });

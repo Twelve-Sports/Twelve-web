@@ -1,56 +1,107 @@
-import React, { useState } from "react";
-import { Flex, Image, Center } from "@chakra-ui/react";
+import React from "react";
+import {
+	Flex,
+	Image,
+	Container,
+	FormControl,
+	Input,
+	Button,
+	Tabs,
+	TabList,
+	Tab,
+	TabPanels,
+	TabPanel,
+} from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
+
+
+type LoginInputs = {
+	email: string;
+	password: string;
+};
 
 const Login: React.FC = () => {
-  const [position, setPosition] = useState<{ x: number; y: number }>({ x: -350, y: 0 });
-  const [dragging, setDragging] = useState(false);
+	const { register, handleSubmit } = useForm<LoginInputs>();
 
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    setDragging(true);
-    const offsetX = e.clientX - position.x;
-    const offsetY = e.clientY - position.y;
+	const onSubmit = (data: LoginInputs) => {
+		console.log(data);
+	};
 
-    const handleMouseMove = (e: MouseEvent) => {
-      if (dragging) {
-        const newX = e.clientX - offsetX;
-        const newY = e.clientY - offsetY;
-        setPosition({ x: newX, y: newY });
-      }
-    };
+	return (
+		<Container maxW="1280px" py="25px">
+			<Flex w="100%" gridGap="20px" justifyContent="space-around">
+				{/* Carousel and images */}
+				<Flex flexDir="column">
+					<Image src="img/login-carousel-1.png" alt="login-carousel-1" />
+				</Flex>
 
-    const handleMouseUp = () => {
-      setDragging(false);
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
-    };
+				<Flex flexDir={"column"}>
+					<Image src="img/login-logo.png" alt="Login" />
+					<Tabs colorScheme="brand" mt="10px">
+						<TabList>
+							<Tab width="50%">Entrar</Tab>
+							<Tab width="50%">Registrar</Tab>
+						</TabList>
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
-  };
-
-  return (
-    <Center h="100vh">
-      <Flex
-        w="462px"
-        h="462px"
-        borderRightWidth={1}
-        onMouseDown={handleMouseDown}
-        style={{
-          cursor: dragging ? "grabbing" : "grab",
-          position: "relative",
-          left: position.x + "px",
-          top: position.y + "px",
-        }}
-      >
-        <Image
-          w="100%"
-          h="100%"
-          src="https://bit.ly/dan-abramov"
-          alt="Login"
-        />
-      </Flex>
-    </Center>
-  );
+						<TabPanels>
+							{/* Login form (Entrar) */}
+							<TabPanel p="0" mt="50px">
+								<form onSubmit={handleSubmit(onSubmit)}>
+									<Flex flexDir={"column"} gridGap={"50px"}>
+										<FormControl isRequired>
+											<Input
+												type="email"
+												placeholder="E-mail ou telefone"
+												textAlign="center"
+												fontWeight="bold"
+												{...register("email", {})}
+											/>
+										</FormControl>
+										<FormControl>
+											<Input
+												type="password"
+												placeholder="Senha"
+												textAlign="center"
+												fontWeight="bold"
+												{...register("password")}
+											/>
+										</FormControl>
+										{/* <Button width="100%" colorScheme="brand" type="submit">
+											Entrar
+										</Button> */}
+										<a href="/agenda" target="_self">
+											<Button  width="100%" colorScheme="brand" >
+												Entrar
+											</Button>
+										</a>
+									</Flex>
+								</form>
+							</TabPanel>
+							{/* Sign up form (Registrar) */}
+							<TabPanel p="0" mt="50px">
+								<form onSubmit={handleSubmit(onSubmit)}>
+									<Flex flexDir={"column"} gridGap={"50px"}>
+										<FormControl isRequired>
+											<Input
+												type="email"
+												placeholder="Insira seu E-mail"
+												textAlign="center"
+												fontWeight="bold"
+												{...register("email", {})}
+											/>
+										</FormControl>
+										<Button width="100%" colorScheme="brand" type="submit">
+											Entrar
+										</Button>
+									</Flex>
+								</form>
+							</TabPanel>
+						</TabPanels>
+					</Tabs>
+				</Flex>
+			</Flex>
+		</Container>
+	);
 };
 
 export default Login;

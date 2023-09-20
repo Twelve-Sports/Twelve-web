@@ -12,6 +12,7 @@ import {
 	TabPanels,
 	TabPanel,
 } from "@chakra-ui/react";
+
 import { useForm } from "react-hook-form";
 
 
@@ -47,7 +48,7 @@ const Login: React.FC = () => {
 							{/* Login form (Entrar) */}
 							<TabPanel p="0" mt="50px">
 								<form onSubmit={handleSubmit(onSubmit)}>
-									<Flex flexDir={"column"} gridGap={"50px"}>
+									<Flex flexDir={{lg:"column", base:"row"}} gridGap={"50px"}>
 										<FormControl isRequired>
 											<Input
 												type="email"
@@ -57,7 +58,7 @@ const Login: React.FC = () => {
 												{...register("email", {})}
 											/>
 										</FormControl>
-										<FormControl>
+										<FormControl isRequired>
 											<Input
 												type="password"
 												placeholder="Senha"
@@ -69,7 +70,7 @@ const Login: React.FC = () => {
 										{/* <Button width="100%" colorScheme="brand" type="submit">
 											Entrar
 										</Button> */}
-										<a href="/agenda" target="_self">
+										<a href="/agendamento" target="_self">
 											<Button  width="100%" colorScheme="brand" >
 												Entrar
 											</Button>
@@ -77,6 +78,7 @@ const Login: React.FC = () => {
 									</Flex>
 								</form>
 							</TabPanel>
+							
 							{/* Sign up form (Registrar) */}
 							<TabPanel p="0" mt="50px">
 								<form onSubmit={handleSubmit(onSubmit)}>

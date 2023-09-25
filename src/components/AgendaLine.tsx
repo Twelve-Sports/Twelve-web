@@ -59,6 +59,7 @@ export default function AgendaLine({ vacancy, ...props }: AgendaLineProps) {
         borderColor="#00FFFF"
         color={hasCourts ? "#4b4f56" : "#B7B7B7"}
         disabled={!hasCourts}
+        cursor={hasCourts ? "pointer" : "default"}
       >
         <ArrowForwardIcon h="20px" w="20px" />
       </Box>

@@ -7,7 +7,8 @@
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:prettier/recommended"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -19,14 +20,17 @@
         "react"
     ],
     "rules": {
-        "indent": [
+        "max-len": [
             "error",
-            "tab"
+            {
+                "code": 80,
+                "ignoreComments": true,
+                "ignoreStrings": true,
+                "ignoreTemplateLiterals": true,
+                "ignoreUrls": true
+            }
         ],
-        "linebreak-style": [
-            "error",
-            "windows"
-        ],
+        "indent": ["error", 2],
         "quotes": [
             "error",
             "double"

@@ -13,6 +13,7 @@ import {
   TabPanel,
 } from "@chakra-ui/react";
 
+import Carousel from "../components/Carousel";
 import { useForm } from "react-hook-form";
 
 type LoginInputs = {
@@ -28,13 +29,11 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Container maxW="1280px" py="25px">
+    <Container maxW="1280px" py="50px">
       <Flex w="100%" gridGap="20px" justifyContent="space-around">
         {/* Carousel and images */}
-        <Flex flexDir="column">
-          <Image src="img/login-carousel-1.png" alt="login-carousel-1" />
-        </Flex>
-
+        <Carousel></Carousel>
+        {/* Login form */}
         <Flex flexDir={"column"}>
           <Image src="img/login-logo.png" alt="Login" />
           <Tabs colorScheme="brand" mt="10px">

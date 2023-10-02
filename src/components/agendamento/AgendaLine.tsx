@@ -33,7 +33,6 @@ export default function AgendaLine({ vacancy, ...props }: AgendaLineProps) {
         bg={hasCourts ? "success.50" : "danger.50"}
         color={hasCourts ? "success.800" : "danger.800"}
         px="5px"
-        pb="3px"
         borderRadius="5px"
       >
         {hasCourts ? quadrasDisp + " disponíveis" : "Indisponível"}

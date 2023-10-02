@@ -47,6 +47,7 @@ export default function DatePicker({
       align={"center"}
       pointerEvents={locked ? "none" : "auto"}
       justifyContent={locked ? "center" : "space-between"}
+      borderBottom={locked ? "none" : "1px solid #0003"}
       {...props}
     >
       <Button

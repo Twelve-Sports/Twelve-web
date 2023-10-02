@@ -4,9 +4,12 @@ import SportSelector from "../components/SportSelector";
 import { PadelIcon, VolleyIcon } from "../../public/icons/icons";
 import { Flex, Text } from "@chakra-ui/react";
 import DatePicker from "../components/DatePicker";
-import AgendaCard from "../components/AgendaCard";
-import AgendaLine from "../components/AgendaLine";
-import SlidingMenu, { SlidingMenuItem } from "../components/SliderMenu";
+import AgendaCard from "../components/agendamento/AgendaCard";
+import AgendaLine from "../components/agendamento/AgendaLine";
+import SlidingMenu, {
+  SlidingMenuItem,
+} from "../components/agendamento/SliderMenu";
+import QuadraLine from "../components/agendamento/QuadraLine";
 
 export default function Agendamento() {
   const [selectedSport, setSelectedSport] = useState<number>(null);
@@ -26,6 +29,7 @@ export default function Agendamento() {
     },
   ];
 
+  // MOCKADO!
   const listaDeHorarios = [
     { id: 1, horario: "08:00", quadrasDisp: 2 },
     { id: 2, horario: "09:00", quadrasDisp: 0 },
@@ -43,6 +47,7 @@ export default function Agendamento() {
     { id: 14, horario: "21:00", quadrasDisp: 0 },
   ];
 
+  // MOCKADO!
   const listaDeQuadras = [
     { id: 1, nome: "Quadra 1", horasConsecutivas: 2 },
     { id: 2, nome: "Quadra 2", horasConsecutivas: 3 },
@@ -73,7 +78,6 @@ export default function Agendamento() {
           <DatePicker
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
-            borderBottom={"1px solid #0003"}
             width="100%"
             locked={isDatePickerLocked}
           />
@@ -81,12 +85,23 @@ export default function Agendamento() {
             updateOnChange={selectedSport}
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
-            horarios={listaDeHorarios.map((horario) => ({
-              row: <AgendaLine key={horario.id} vacancy={horario} />,
-              label: horario.horario,
+            horarios={listaDeHorarios.map((vacancy) => ({
+              row: <AgendaLine key={vacancy.id} vacancy={vacancy} />,
+              label: vacancy.horario,
               onClick: () => console.log("banana"),
             }))}
-            quadras={listaDeQuadras}
+            quadras={listaDeQuadras.map((quadra) => ({
+              row: (
+                <QuadraLine
+                  key={quadra.id}
+                  courtID={quadra.id}
+                  courtName={quadra.nome}
+                  consecutiveHours={quadra.horasConsecutivas}
+                />
+              ),
+              label: quadra.nome,
+              onClick: () => console.log("banana"),
+            }))}
           />
         </AgendaCard>
       </Flex>

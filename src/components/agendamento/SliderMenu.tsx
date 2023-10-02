@@ -93,26 +93,42 @@ export default function SlidingMenu({
 
       <Flex className="keen-slider__slide">
         <Flex flexDir="column" gridGap="10px" width="100%">
-          <Flex gridGap="10px" align="center">
+          <Flex
+            gridGap="10px"
+            align="center"
+            borderBottom={"1px solid #0003"}
+            position="relative"
+            alignContent="center"
+            justify="center"
+            h={"40px"}
+          >
             <ArrowDownIcon
               width="36px"
               height="36px"
               transform="rotate(90deg)"
               onClick={onClickBack}
+              position="absolute"
+              left={"15px"}
+              borderRadius={"5px"}
+              top="0"
               {...hoverableProps}
             />
-            <Text fontWeight={400}>{selectedOption?.label}</Text>
+            <Text fontWeight={600} fontSize={"22px"}>
+              {selectedOption?.label}
+            </Text>
           </Flex>
 
           <Flex flexDir={"column"}>
             {selectedOption &&
               quadras.map((quadra) => (
                 <Flex
-                  key={"k-" + selectedOption.label + quadra.id}
-                  {...hoverableProps}
-                  onClick={selectedOption.onClick}
+                  key={"k-" + quadra.label}
+                  onClick={() => {
+                    onClickRow(horarios?.indexOf(quadra));
+                    quadra.onClick();
+                  }}
                 >
-                  {quadra.nome} - {quadra.horasConsecutivas}
+                  {quadra.row}
                 </Flex>
               ))}
           </Flex>

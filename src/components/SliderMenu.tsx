@@ -16,6 +16,7 @@ export type SlidingMenuItem = {
 export type SlidingMenuProps = {
   title?: string;
   horarios: SlidingMenuItem[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   quadras: any[];
   selectedOption?: SlidingMenuItem;
   setSelectedOption: React.Dispatch<

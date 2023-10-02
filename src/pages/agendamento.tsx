@@ -78,6 +78,7 @@ export default function Agendamento() {
             locked={isDatePickerLocked}
           />
           <SlidingMenu
+            updateOnChange={selectedSport}
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
             horarios={listaDeHorarios.map((horario) => ({

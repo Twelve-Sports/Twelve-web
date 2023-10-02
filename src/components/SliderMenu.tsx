@@ -22,6 +22,7 @@ export type SlidingMenuProps = {
   setSelectedOption: React.Dispatch<
     React.SetStateAction<SlidingMenuItem | undefined>
   >;
+  updateOnChange?: number;
 } & FlexProps;
 
 export default function SlidingMenu({
@@ -30,6 +31,7 @@ export default function SlidingMenu({
   quadras,
   selectedOption,
   setSelectedOption,
+  updateOnChange,
   ...props
 }: SlidingMenuProps) {
   const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>({
@@ -63,7 +65,7 @@ export default function SlidingMenu({
   useEffect(() => {
     if (!instanceRef) return;
     instanceRef.current.update();
-  }, [instanceRef]);
+  }, [instanceRef, updateOnChange]);
 
   return (
     <Flex ref={sliderRef} className="keen-slider" {...props}>

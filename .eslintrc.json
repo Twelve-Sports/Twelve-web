@@ -20,6 +20,15 @@
         "react"
     ],
     "rules": {
+        "prettier/prettier": [
+            "error",
+            {
+              "endOfLine": "auto",
+              "singleQuote": false,
+              "trailingComma": "es5",
+              "tabWidth": 2
+            }
+          ],
         "max-len": [
             "error",
             {

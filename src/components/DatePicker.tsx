@@ -1,4 +1,4 @@
-import { Button, Flex, forwardRef } from "@chakra-ui/react";
+import { Button, Flex, FlexProps, forwardRef } from "@chakra-ui/react";
 import React from "react";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,11 +8,11 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
 type DatePickerProps = {
 	selectedDate: Date;
 	setSelectedDate: (date: Date) => void;
-};
+} & FlexProps;
 
 
 
-export default function DatePicker({ selectedDate, setSelectedDate }: DatePickerProps) {
+export default function DatePicker({ selectedDate, setSelectedDate, ...props }: DatePickerProps) {
 	const minDate = new Date();
 
 	const handleDateChange = (date: Date) => {
@@ -39,8 +39,8 @@ export default function DatePicker({ selectedDate, setSelectedDate }: DatePicker
 	};
 
 	return (
-		<Flex align={"center"}>
-			<Button variant="ghost" onClick={handlePrevDay}><ArrowLeftIcon/></Button>
+		<Flex align={"center"} {...props}>
+			<Button variant="ghost" onClick={handlePrevDay}  mx="10px"><ArrowLeftIcon/></Button>
 			<ReactDatePicker
 				selected={selectedDate}
 				onChange={handleDateChange}
@@ -49,7 +49,7 @@ export default function DatePicker({ selectedDate, setSelectedDate }: DatePicker
 				dateFormat="yyyy-MM-dd"
 				minDate={minDate}
 			/>
-			<Button variant="ghost" onClick={handleNextDay}><ArrowRightIcon/></Button>
+			<Button variant="ghost" onClick={handleNextDay} mx="10px"><ArrowRightIcon/></Button>
 		</Flex>
 	);
 }

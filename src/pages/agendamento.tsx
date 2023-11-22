@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import AgendaWrapper from "../layouts/agendaWrapper";
-import SportSelector from "../components/SportSelector";
-import { PadelIcon, VolleyIcon } from "../../public/icons/icons";
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import DatePicker from "../components/DatePicker";
 import AgendaCard from "../components/agendamento/AgendaCard";
 import AgendaLine from "../components/agendamento/AgendaLine";
@@ -12,22 +10,9 @@ import SlidingMenu, {
 import QuadraLine from "../components/agendamento/QuadraLine";
 
 export default function Agendamento() {
-  const [selectedSport, setSelectedSport] = useState<number>(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedOption, setSelectedOption] = useState<SlidingMenuItem>(null);
   const isDatePickerLocked = selectedOption !== null;
-  const sports = [
-    {
-      id: 1,
-      name: "Padel",
-      icon: <PadelIcon color={selectedSport === 1 ? "white" : "black"} />,
-    },
-    {
-      id: 2,
-      name: "Vôlei",
-      icon: <VolleyIcon color={selectedSport === 2 ? "white" : "black"} />,
-    },
-  ];
 
   // MOCKADO!
   const listaDeHorarios = [
@@ -63,18 +48,7 @@ export default function Agendamento() {
         position={"relative"}
         flexDir={{ base: "column", md: "row" }}
       >
-        <Flex flexDir={"column"} gridGap={"10px"}>
-          <Text>Filtrar por:</Text>
-          <SportSelector
-            sports={sports}
-            selectedSport={selectedSport}
-            setSelectedSport={setSelectedSport}
-            gridGap="10px"
-            width="fit-content"
-          />
-        </Flex>
-
-        <AgendaCard display={selectedSport ? "flex" : "none"}>
+        <AgendaCard>
           <DatePicker
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
@@ -82,7 +56,6 @@ export default function Agendamento() {
             locked={isDatePickerLocked}
           />
           <SlidingMenu
-            updateOnChange={selectedSport}
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
             horarios={listaDeHorarios.map((vacancy) => ({

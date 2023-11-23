@@ -21,24 +21,24 @@ export default function DatePicker({
 
   const handleDateChange = (date: Date) => {
     const today = new Date();
-    if (date < today) {
+    if (date > today) {
       setSelectedDate(today);
     } else {
       setSelectedDate(date);
     }
   };
 
-  const handlePrevDay = () => {
+  const handleNextDay = () => {
     const prevDay = new Date(selectedDate);
-    prevDay.setDate(prevDay.getDate() - 1);
+    prevDay.setDate(prevDay.getDate() + 1);
     prevDay.setHours(23, 59, 59, 999);
-    if (prevDay < minDate) return;
+    if (prevDay > minDate) return;
     setSelectedDate(prevDay);
   };
 
-  const handleNextDay = () => {
+  const handlePrevDay = () => {
     const nextDay = new Date(selectedDate);
-    nextDay.setDate(nextDay.getDate() + 1);
+    nextDay.setDate(nextDay.getDate() - 1);
     setSelectedDate(nextDay);
   };
 

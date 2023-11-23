@@ -21,7 +21,7 @@ export default function DatePicker({
 
   const handleDateChange = (date: Date) => {
     const today = new Date();
-    if (date > today) {
+    if (date >= today) {
       setSelectedDate(today);
     } else {
       setSelectedDate(date);
@@ -30,9 +30,9 @@ export default function DatePicker({
 
   const handleNextDay = () => {
     const prevDay = new Date(selectedDate);
+    if (prevDay >= minDate) return;
     prevDay.setDate(prevDay.getDate() + 1);
     prevDay.setHours(23, 59, 59, 999);
-    if (prevDay > minDate) return;
     setSelectedDate(prevDay);
   };
 
@@ -64,7 +64,7 @@ export default function DatePicker({
         customInput={<CustomInput color={locked ? "gray.500" : "black"} />}
         locale={ptBR}
         dateFormat="yyyy-MM-dd"
-        minDate={minDate}
+        maxDate={minDate}
         disabled={locked}
       />
       <Button

@@ -54,6 +54,7 @@ export default function Agendamento() {
             setSelectedDate={setSelectedDate}
             width="100%"
             locked={isDatePickerLocked}
+            pb={3}
           />
           <SlidingMenu
             selectedOption={selectedOption}

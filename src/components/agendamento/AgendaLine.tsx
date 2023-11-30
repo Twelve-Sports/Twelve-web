@@ -4,16 +4,16 @@ import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 export type Vacancy = {
   id: number;
-  horario: string;
-  quadrasDisp: number;
+  hour: string;
+  totalClips: number;
 };
 
 type AgendaLineProps = {
   vacancy: Vacancy;
 } & FlexProps;
 export default function AgendaLine({ vacancy, ...props }: AgendaLineProps) {
-  const { horario, quadrasDisp } = vacancy;
-  const hasCourts = quadrasDisp > 0;
+  const { hour, totalClips } = vacancy;
+  const hasCourts = totalClips > 0;
   return (
     <Flex
       width="100%"
@@ -27,7 +27,7 @@ export default function AgendaLine({ vacancy, ...props }: AgendaLineProps) {
       {...props}
     >
       <Text fontWeight={"bold"} color={hasCourts ? "gray.900" : "gray.300"}>
-        {horario}
+        {hour}
       </Text>
       <Box
         bg={hasCourts ? "success.50" : "danger.50"}
@@ -35,9 +35,9 @@ export default function AgendaLine({ vacancy, ...props }: AgendaLineProps) {
         px="5px"
         borderRadius="5px"
       >
-        {hasCourts ? quadrasDisp + " disponíveis" : "Indisponível"}
+        {hasCourts ? totalClips + " disponíveis" : "Não ha videos"}
       </Box>
-      <Button variant={"ghost"} isDisabled={quadrasDisp === 0}>
+      <Button variant={"ghost"} isDisabled={totalClips === 0}>
         <ArrowForwardIcon h="20px" w="20px" />
       </Button>
     </Flex>

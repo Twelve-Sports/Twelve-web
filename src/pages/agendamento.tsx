@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AgendaWrapper from "../layouts/agendaWrapper";
 import { Flex } from "@chakra-ui/react";
 import DatePicker from "../components/DatePicker";
@@ -8,29 +8,83 @@ import SlidingMenu, {
   SlidingMenuItem,
 } from "../components/agendamento/SliderMenu";
 import QuadraLine from "../components/agendamento/QuadraLine";
+import { format } from 'date-fns-tz';
+
+
 
 export default function Agendamento() {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [video, setVideo] = useState<any> ([]);
   const [selectedOption, setSelectedOption] = useState<SlidingMenuItem>(null);
   const isDatePickerLocked = selectedOption !== null;
 
+  async function getVideoByDayAndHourAllCourts(date: string, hour: number): Promise<void> {
+    try {
+      console.log(hour);
+  
+      const response = await fetch('http://localhost:3002/allVideoDayAllCourts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ date, hour }),
+      });
+  
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(`Erro na solicitação: ${response.statusText}\n${errorMessage}`);
+      }
+  
+      const data = await response.json();
+  
+      // setVideo(data);
+      return data;
+    } catch (error) {
+      console.error('Erro durante a solicitação:', error.message);
+    }
+  }
+  useEffect(() => {
+    const fetchData = async () => {
+      const newData = await Promise.all(
+        Array.from({ length: 22 - 8 }, (_, index) =>
+          getVideoByDayAndHourAllCourts(format(selectedDate, 'yyyy-MM-dd', { timeZone: 'America/Sao_Paulo' }), index + 8)
+        )
+      );
+  
+      setVideo(newData);
+    };
+  
+    fetchData();
+  }, [selectedDate]);
+  
+
   // MOCKADO!
   const listaDeHorarios = [
-    { id: 1, horario: "08:00", quadrasDisp: 2 },
-    { id: 2, horario: "09:00", quadrasDisp: 0 },
-    { id: 3, horario: "10:00", quadrasDisp: 0 },
-    { id: 4, horario: "11:00", quadrasDisp: 1 },
-    { id: 5, horario: "12:00", quadrasDisp: 7 },
-    { id: 6, horario: "13:00", quadrasDisp: 2 },
-    { id: 7, horario: "14:00", quadrasDisp: 4 },
-    { id: 8, horario: "15:00", quadrasDisp: 3 },
-    { id: 9, horario: "16:00", quadrasDisp: 7 },
-    { id: 10, horario: "17:00", quadrasDisp: 1 },
-    { id: 11, horario: "18:00", quadrasDisp: 0 },
-    { id: 12, horario: "19:00", quadrasDisp: 0 },
-    { id: 13, horario: "20:00", quadrasDisp: 0 },
-    { id: 14, horario: "21:00", quadrasDisp: 0 },
+    { id: 1, hour: "08:00", totalClips: 2 },
+    { id: 2, hour: "09:00", totalClips: 0 },
+    { id: 3, hour: "10:00", totalClips: 0 },
+    { id: 4, hour: "11:00", totalClips: 1 },
+    { id: 5, hour: "12:00", totalClips: 7 },
+    { id: 6, hour: "13:00", totalClips: 2 },
+    { id: 7, hour: "14:00", totalClips: 4 },
+    { id: 8, hour: "15:00", totalClips: 2 },
+    { id: 9, hour: "16:00", totalClips: 7 },
+    { id: 10, hour: "17:00", totalClips: 1 },
+    { id: 11, hour: "18:00", totalClips: 0 },
+    { id: 12, hour: "19:00", totalClips: 0 },
+    { id: 13, hour: "20:00", totalClips: 0 },
+    { id: 14, hour: "21:00", totalClips: 0 },
   ];
+
+ 
+
+  const listaAtualizada = listaDeHorarios.map((hour, index) => ({
+    ...hour,
+    totalClips: video[index]?.totalClips || 0,
+    
+  }));
+  console.log('listaAtualizada', listaAtualizada);
+  
 
   // MOCKADO!
   const listaDeQuadras = [
@@ -59,9 +113,9 @@ export default function Agendamento() {
           <SlidingMenu
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
-            horarios={listaDeHorarios.map((vacancy) => ({
+            horarios={listaAtualizada.map((vacancy) => ({
               row: <AgendaLine key={vacancy.id} vacancy={vacancy} />,
-              label: vacancy.horario,
+              label: vacancy.hour,
               onClick: () => console.log("banana"),
             }))}
             quadras={listaDeQuadras.map((quadra) => ({

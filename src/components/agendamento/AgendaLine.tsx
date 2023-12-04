@@ -11,9 +11,11 @@ export type Vacancy = {
 type AgendaLineProps = {
   vacancy: Vacancy;
 } & FlexProps;
+
 export default function AgendaLine({ vacancy, ...props }: AgendaLineProps) {
   const { hour, totalClips } = vacancy;
   const hasCourts = totalClips > 0;
+
   return (
     <Flex
       width="100%"
@@ -29,14 +31,20 @@ export default function AgendaLine({ vacancy, ...props }: AgendaLineProps) {
       <Text fontWeight={"bold"} color={hasCourts ? "gray.900" : "gray.300"}>
         {hour}
       </Text>
-      <Box
-        bg={hasCourts ? "success.50" : "danger.50"}
-        color={hasCourts ? "success.800" : "danger.800"}
-        px="5px"
-        borderRadius="5px"
-      >
-        {hasCourts ? totalClips + " disponíveis" : "Não ha videos"}
-      </Box>
+      {hasCourts ? (
+        <Box
+          bg="success.50"
+          color="success.800"
+          px="5px"
+          borderRadius="5px"
+        >
+          {totalClips + " disponíveis"}
+        </Box>
+      ) : (
+        <Text color="danger.800" fontWeight="bold">
+          Não há vídeos neste dia.
+        </Text>
+      )}
       <Button variant={"ghost"} isDisabled={totalClips === 0}>
         <ArrowForwardIcon h="20px" w="20px" />
       </Button>

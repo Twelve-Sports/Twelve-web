@@ -78,12 +78,15 @@ export default function Agendamento() {
 
  
 
-  const listaAtualizada = listaDeHorarios.map((hour, index) => ({
+  const listaAtualizada = listaDeHorarios
+  .map((hour, index) => ({
     ...hour,
     totalClips: video[index]?.totalClips || 0,
-    
-  }));
-  console.log('listaAtualizada', listaAtualizada);
+  }))
+  .filter((item) => item.totalClips > 0);
+
+console.log('listaAtualizada', listaAtualizada);
+
   
 
   // MOCKADO!

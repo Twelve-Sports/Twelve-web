@@ -10,14 +10,14 @@ import { ArrowDownIcon } from "@chakra-ui/icons";
 export type SlidingMenuItem = {
   label: string;
   row: React.ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
 };
 
 export type SlidingMenuProps = {
   title?: string;
   horarios: SlidingMenuItem[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  quadras: any[];
+  quadras: React.ReactNode[];
   selectedOption?: SlidingMenuItem;
   setSelectedOption: React.Dispatch<
     React.SetStateAction<SlidingMenuItem | undefined>
@@ -25,7 +25,7 @@ export type SlidingMenuProps = {
   updateOnChange?: number;
 } & FlexProps;
 
-export default function SlidingMenu({
+export default function SliderMenu({
   title,
   horarios,
   quadras,
@@ -67,6 +67,23 @@ export default function SlidingMenu({
     instanceRef.current.update();
   }, [instanceRef, updateOnChange]);
 
+  const hasHorarios = horarios.length > 0;
+
+  const noClipsMessage = (
+    <Flex
+      width="100%"
+      borderBottom={"1px solid #0003"}
+      py="15px"
+      px="25px"
+      align={"center"}
+      justify={"space-between"}
+      fontSize={"20px"}
+      bg={"gray.50"}
+    >
+      Não há clipes neste dia. <br /> Tente outra data
+    </Flex>
+  );
+
   return (
     <Flex ref={sliderRef} className="keen-slider" {...props}>
       <Flex className="keen-slider__slide" w="100%" flexDir={"column"}>
@@ -76,18 +93,20 @@ export default function SlidingMenu({
               {title}
             </Text>
           )}
-          {horarios.map((option) => (
-            <Flex
-              key={"k-" + option.label}
-              {...hoverableProps}
-              onClick={() => {
-                onClickRow(horarios?.indexOf(option));
-                option.onClick();
-              }}
-            >
-              {option.row}
-            </Flex>
-          ))}
+          {hasHorarios &&
+            horarios.map((option) => (
+              <Flex
+                key={"k-" + option.label}
+                {...hoverableProps}
+                onClick={() => {
+                  onClickRow(horarios?.indexOf(option));
+                  option?.onClick?.();
+                }}
+              >
+                {option.row}
+              </Flex>
+            ))}
+          {!hasHorarios && noClipsMessage}
         </Flex>
       </Flex>
 
@@ -119,18 +138,7 @@ export default function SlidingMenu({
           </Flex>
 
           <Flex flexDir={"column"}>
-            {selectedOption &&
-              quadras.map((quadra) => (
-                <Flex
-                  key={"k-" + quadra.label}
-                  onClick={() => {
-                    onClickRow(horarios?.indexOf(quadra));
-                    quadra.onClick();
-                  }}
-                >
-                  {quadra.row}
-                </Flex>
-              ))}
+            {!!selectedOption && quadras.map((quadra) => quadra)}
           </Flex>
         </Flex>
       </Flex>

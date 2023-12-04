@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -14,16 +14,48 @@ import { ArrowForwardIcon } from "@chakra-ui/icons";
 type AgendaLineProps = {
   courtID: number;
   courtName: string;
-  consecutiveHours: number;
+  clipCount: number;
+  selectedDate: Date;
+  selectedHour: string;
 } & FlexProps;
 export default function QuadraLine({
   courtID,
   courtName,
-  consecutiveHours,
+  clipCount: clipCount,
+  selectedDate,
+  selectedHour,
   ...props
 }: AgendaLineProps) {
   const [show, setShow] = React.useState(false);
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  async function fetchClipsInCourt(courtID) {
+    // try {
+    //   const response = await fetch("http://localhost:3002/allVideoDay", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({ date }),
+    //   });
+    //   if (!response.ok) {
+    //     setTotalClipsByHour({});
+    //     const errorMessage = await response.text();
+    //     throw new Error(
+    //       `Erro na solicitação: ${response.statusText}\n${errorMessage}`
+    //     );
+    //   }
+    //   const data = await response.json();
+    //   const totalClipsByHour = data.totalClipsByHour;
+    //   setTotalClipsByHour(totalClipsByHour);
+    // } catch (error) {
+    //   setTotalClipsByHour({});
+    //   console.error("Erro durante a solicitação:", error.message);
+    // }
+  }
+
+  useEffect(() => {
+    fetchClipsInCourt(courtID);
+  }, [show]);
 
   return (
     <Flex width="100%" flexDir={"column"} borderBottom={"1px solid #0003"}>
@@ -40,7 +72,7 @@ export default function QuadraLine({
           {courtName}
         </Text>
         <Box bg={"gray.100"} px="5px" borderRadius="5px">
-          {consecutiveHours + "h disponíveis"}
+          {clipCount + " clipes"}
         </Box>
         <Button variant={"ghost"} onClick={() => setShow(!show)}>
           <ArrowForwardIcon

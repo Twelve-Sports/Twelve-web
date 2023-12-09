@@ -18,7 +18,8 @@ export default function AgendaCard({ children, ...props }: AgendaCardProps) {
       right="0"
       left="0"
       mx="auto"
-      width={{ base: "100%", md: "440px" }}
+      width={{ base: "100%", md: "600px" }}
+      mb={{ base: 0, md: "30px" }}
       align="center"
       {...props}
     >

@@ -7,9 +7,9 @@ import {
   FlexProps,
   Spinner,
   Text,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
+import { format } from "date-fns-tz";
 
 type AgendaLineProps = {
   courtID: number;
@@ -21,40 +21,56 @@ type AgendaLineProps = {
 export default function QuadraLine({
   courtID,
   courtName,
-  clipCount: clipCount,
+  clipCount,
   selectedDate,
   selectedHour,
   ...props
 }: AgendaLineProps) {
   const [show, setShow] = React.useState(false);
+  const [videos, setVideos] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
-  async function fetchClipsInCourt(courtID) {
-    // try {
-    //   const response = await fetch("http://localhost:3002/allVideoDay", {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ date }),
-    //   });
-    //   if (!response.ok) {
-    //     setTotalClipsByHour({});
-    //     const errorMessage = await response.text();
-    //     throw new Error(
-    //       `Erro na solicitação: ${response.statusText}\n${errorMessage}`
-    //     );
-    //   }
-    //   const data = await response.json();
-    //   const totalClipsByHour = data.totalClipsByHour;
-    //   setTotalClipsByHour(totalClipsByHour);
-    // } catch (error) {
-    //   setTotalClipsByHour({});
-    //   console.error("Erro durante a solicitação:", error.message);
-    // }
+  async function fetchClipsInCourt(date: string, hour: number) {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        `http://localhost:3002/videoHour/${courtID}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ date, hour }),
+        }
+      );
+
+      if (!response.ok) {
+        setVideos([]);
+        const errorMessage = await response.text();
+        throw new Error(
+          `Erro na solicitação: ${response.statusText}\n${errorMessage}`
+        );
+      }
+
+      const data = await response.json();
+      console.log(data);
+      setVideos(data.videos);
+    } catch (error) {
+      setVideos([]);
+      console.error("Erro durante a solicitação:", error.message);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
   }
 
   useEffect(() => {
-    fetchClipsInCourt(courtID);
+    if (show) {
+      setLoading(true);
+      const hourInteger = parseInt(selectedHour.split(":")[0]);
+      fetchClipsInCourt(format(selectedDate, "yyyy-MM-dd"), hourInteger);
+    }
   }, [show]);
 
   return (
@@ -84,16 +100,48 @@ export default function QuadraLine({
         </Button>
       </Flex>
       <Collapse in={show} animateOpacity>
-        <Box
-          p="40px"
+        <Flex
+          p="15px"
           color="white"
-          mt="4"
-          bg="teal.500"
-          rounded="md"
-          shadow="md"
+          flexDir={"column"}
+          gap="10px"
+          align={"center"}
+          bg={"gray.100"}
         >
-          Banana
-        </Box>
+          {loading ? (
+            <Spinner width={"100px"} height={"100px"} color="brand.500" />
+          ) : (
+            videos.map((video: any, index, arr) => {
+              const clipHourAndMinute = video.data.split("T")[1].split(".")[0];
+              const videoPath = "http://localhost:3002/" + video.file;
+              return (
+                <>
+                  <Flex
+                    key={video.file}
+                    gap="5px"
+                    justify="space-around"
+                    align="center"
+                    fontSize={"20px"}
+                    fontWeight={"bold"}
+                    w="100%"
+                  >
+                    <Text color="gray.900">{clipHourAndMinute}</Text>
+                    <Box rounded="20px" overflow="clip">
+                      <video width="240" height="160" controls>
+                        <source src={videoPath} type="video/mp4" />
+                        Your browser does not support the avideo tag.
+                      </video>
+                    </Box>
+                  </Flex>
+                  {/* if not last add separator line */}
+                  {index !== arr.length - 1 && (
+                    <Box w="100%" h="1px" bg="gray.500" opacity="0.5" />
+                  )}
+                </>
+              );
+            })
+          )}
+        </Flex>
       </Collapse>{" "}
     </Flex>
   );

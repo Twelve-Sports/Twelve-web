@@ -116,6 +116,7 @@ export default function Agendamento() {
         width="100%"
         position={"relative"}
         flexDir={{ base: "column", md: "row" }}
+        pb={{ base: 0, md: "30px" }}
       >
         <AgendaCard>
           <DatePicker

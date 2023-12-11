@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { format } from "date-fns-tz";
+import * as env from "../../../env.js";
 
 type AgendaLineProps = {
   courtID: number;
@@ -34,7 +35,7 @@ export default function QuadraLine({
     setLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:3002/videoHour/${courtID}`,
+        `${env.IPLOCAL}/videoHour/${courtID}`,
         {
           method: "POST",
           headers: {
@@ -113,7 +114,7 @@ export default function QuadraLine({
           ) : (
             videos.map((video: any, index, arr) => {
               const clipHourAndMinute = video.data.split("T")[1].split(".")[0];
-              const videoPath = "http://localhost:3002/" + video.file;
+              const videoPath = `${env.IPLOCAL}/` + video.file;
               return (
                 <>
                   <Flex

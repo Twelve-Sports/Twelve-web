@@ -9,6 +9,7 @@ import SliderMenu, {
 } from "../components/agendamento/SliderMenu";
 import { format } from "date-fns-tz";
 import QuadraLine from "../components/agendamento/QuadraLine";
+import * as env from "../../env.js"
 
 export default function Agendamento() {
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -20,7 +21,7 @@ export default function Agendamento() {
 
   async function fetchClipsByDay(date: string): Promise<void> {
     try {
-      const response = await fetch("http://localhost:3002/allVideoDay", {
+      const response = await fetch(`${env.IPLOCAL}/allVideoDay`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +51,7 @@ export default function Agendamento() {
     hour: number
   ): Promise<void> {
     try {
-      const response = await fetch("http://localhost:3002/clipCountByGame", {
+      const response = await fetch(`${env.IPLOCAL}/clipCountByGame`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

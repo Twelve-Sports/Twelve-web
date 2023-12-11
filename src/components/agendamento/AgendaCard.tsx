@@ -11,7 +11,7 @@ export default function AgendaCard({ children, ...props }: AgendaCardProps) {
       flexDir="column"
       boxShadow="0px 4px 4px 0px #0004"
       bg="white"
-      borderRadius="30px"
+      borderRadius={{ base: "0 0 30px 30px", md: "30px" }}
       pt="10px"
       pb="30px"
       position={{ base: "relative", md: "absolute" }}

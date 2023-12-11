@@ -26,7 +26,6 @@ const Navbar: React.FC = () => {
           right="0"
           mx="auto"
         />
-        <Text>Fulano de Tal</Text>
       </Flex>
     </Box>
   );

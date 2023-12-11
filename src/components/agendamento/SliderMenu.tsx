@@ -75,12 +75,18 @@ export default function SliderMenu({
       borderBottom={"1px solid #0003"}
       py="15px"
       px="25px"
-      align={"center"}
-      justify={"space-between"}
+      justify={"center"} // Changed from "space-between" to "center"
       fontSize={"20px"}
       bg={"gray.50"}
     >
-      Não há clipes neste dia. <br /> Tente outra data
+      <Flex
+        align={"center"}
+        justify={"center"}
+        direction={"column"}
+        width={"100%"}
+      >
+        Não há clipes neste dia. <br /> Tente outra data
+      </Flex>
     </Flex>
   );
 

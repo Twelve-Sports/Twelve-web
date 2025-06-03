@@ -18,10 +18,12 @@ export default function AgendaLine({vacancy,...props}:AgendaLineProps){
 		<Flex 
 			width="100%" 
 			borderBottom={"1px solid #0003"} 
-			py="15px" 
+			py="15px"
+			px="25px"
 			align={"center"}
 			justify={"space-between"}
 			fontSize={"20px"}
+			bg={hasCourts?"white":"gray.50"}
 			{...props}
 		>
 			<Text fontWeight={"bold"} color={hasCourts?"gray.900":"gray.300"}>
@@ -31,6 +33,7 @@ export default function AgendaLine({vacancy,...props}:AgendaLineProps){
 				bg={hasCourts ? "success.50":"danger.50"}
 				color ={hasCourts ? "success.800":"danger.800"}
 				px="5px"
+				pb="3px"
 				borderRadius="5px"
 			>
 				{hasCourts ? quadrasDisp+" disponíveis":"Indisponível"}

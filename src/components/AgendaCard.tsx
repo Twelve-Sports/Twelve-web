@@ -13,7 +13,6 @@ export default function AgendaCard ({children, ...props}:AgendaCardProps) {
 			bg="white" 
 			borderRadius="30px"
 			pt="10px"
-			px="25px"
 			pb="30px"
 			position={{base:"relative", md:"absolute"}}
 			right="0"
